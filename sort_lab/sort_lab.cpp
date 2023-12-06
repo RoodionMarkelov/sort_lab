@@ -24,15 +24,22 @@ int main()
 	print(list);
 
 	std::vector<int> list1;
-	list1.push_back(10);
 	srand(0);
-
 	for (int i = 0; i < 10; ++i) {
-		list1.push_back(10-i);
+		list1.push_back(rand());
 	}
 	print(list1);
-	quickSort(list1, 0, list.size() - 1);
+	quickSort(list1, 0, list1.size() - 1);
 	print(list1);
+
+	std::vector<int> list2;
+	srand(0);
+	for (int i = 0; i < 10; ++i) {
+		list2.push_back(rand());
+	}
+	print(list2);
+	combSort(list2);
+	print(list2);
 
 	return 0;
 }

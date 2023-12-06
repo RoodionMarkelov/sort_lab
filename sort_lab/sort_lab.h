@@ -37,3 +37,17 @@ void quickSort(std::vector<int>& list, int start, int end) {
 	quickSort(list, start, pIndex - 1);
 	quickSort(list, pIndex + 1, end);
 }
+
+void combSort(std::vector<int>& list) {
+	float factor = 1.277f;
+	int step = list.size() - 1;
+	while (step >= 1) {
+		for (int i = 0; i + step < list.size(); ++i) {
+			if (list[i] > list[i + step]) {
+				swap(list[i], list[i + step]);
+			}
+		}
+		step = step / factor;
+		//step--;
+	}
+}
