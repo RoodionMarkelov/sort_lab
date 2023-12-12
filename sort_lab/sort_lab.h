@@ -9,7 +9,8 @@ struct Stats {
 	size_t copy_count = 0;
 };
 
-void insertionSort(std::vector<int>& list, Stats& stats) {
+Stats insertionSort(std::vector<int>& list) {
+	Stats stats;
 	for (int i = 1; i < list.size(); ++i) {
 		int key = list[i];
 		stats.copy_count = stats.copy_count + 1;
@@ -22,42 +23,50 @@ void insertionSort(std::vector<int>& list, Stats& stats) {
 		}
 		list[j + 1] = key;
 	}
+	return stats;
 }
 
-void quickSort(std::vector<int>& list, int start, int end, Stats& stats) {
-	if (start >= end) return;
+Stats quickSort(std::vector<int>& list, int start, int end) {
+	Stats stats;
+	if (start >= end) return stats;
 	int pivot = list[end];
-	stats.copy_count = stats.copy_count + 1;
+	stats.copy_count++;
 	int pIndex = start;
 	for (int i = start; i < end; i++)
 	{
+		stats.comparison_count++;
 		if (list[i] <= pivot)
 		{
 			swap(list[i], list[pIndex]);
-			stats.comparison_count = stats.comparison_count
-				+ 1;
-			stats.copy_count = stats.copy_count + 1;
+			stats.copy_count++;
 			pIndex++;
 		}
 	}
 	swap(list[pIndex], list[end]);
-	quickSort(list, start, pIndex - 1, stats);
-	quickSort(list, pIndex + 1, end, stats);
+	Stats stats_left = quickSort(list, pIndex + 1, end);
+	stats.comparison_count += stats_left.comparison_count;
+	stats.copy_count += stats_left.copy_count;
+	Stats stats_right = quickSort(list, start, pIndex - 1);
+	stats.comparison_count += stats_right.comparison_count;
+	stats.copy_count += stats_right.copy_count;
+
+	return stats;
 }
 
-void combSort(std::vector<int>& list, Stats& stats) {
+Stats combSort(std::vector<int>& list ) {
+	Stats stats;
 	float factor = 1.277f;
 	int step = list.size() - 1;
 	while (step >= 1) {
 		for (int i = 0; i + step < list.size(); ++i) {
+			stats.comparison_count++;
 			if (list[i] > list[i + step]) {
 				swap(list[i], list[i + step]);
-				stats.comparison_count = stats.comparison_count
-					+ 1;
-				stats.copy_count = stats.copy_count + 1;
+				stats.copy_count++;
 			}
 		}
 		step = step / factor;
 		//step--;
 	}
+	return stats;
 }
