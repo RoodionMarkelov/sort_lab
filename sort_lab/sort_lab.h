@@ -62,38 +62,51 @@ Stats insertionSort(std::vector<int>& list) {
 		stats.comparison_count++;
 		while (j >= 0 && list[j] > key) {
 			list[j + 1] = list[j];
-			stats.copy_count++;
 			stats.comparison_count++;
+			stats.copy_count++;
 			j = j - 1;
 		}
+		stats.copy_count++;
 		list[j + 1] = key;
 	}
 	return stats;
 }
 
-Stats quickSort(std::vector<int>& list, int start, int end) {
-	Stats stats{0, 0};
-	if (start >= end) return stats;
-	int pivot = list[end];
-	int pIndex = start;
-	for (int i = start; i < end; i++)
-	{
-		stats.comparison_count++;
-		if (list[i] <= pivot)
-		{
-			swap(list[i], list[pIndex]);
-			stats.copy_count += 3;
-			pIndex++;
+Stats quickSort(vector<int>& vec, int start, int end) {
+	Stats stats;
+
+	int i = start;
+	int j = end;
+	int middle = vec[(start + end) / 2];
+
+	do {
+		while (vec[i] < middle) {
+			stats.comparison_count++;
+			i++;
 		}
+		while (vec[j] > middle) {
+			stats.comparison_count++;
+			j--;
+		}
+
+		if (i <= j) {
+			swap(vec[i], vec[j]);
+			i++;
+			j--;
+			stats.copy_count += 3;
+		}
+	} while (i <= j);
+
+	if (j > start) {
+		Stats left_stats = quickSort(vec, start, j);
+		stats.comparison_count += left_stats.comparison_count;
+		stats.copy_count += left_stats.copy_count;
 	}
-	swap(list[pIndex], list[end]);
-	stats.copy_count += 3;
-	Stats stats_left = quickSort(list, pIndex + 1, end);
-	stats.comparison_count += stats_left.comparison_count;
-	stats.copy_count += stats_left.copy_count;
-	Stats stats_right = quickSort(list, start, pIndex - 1);
-	stats.comparison_count += stats_right.comparison_count;
-	stats.copy_count += stats_right.copy_count;
+	if (i < end) {
+		Stats right_stats = quickSort(vec, i, end);
+		stats.comparison_count += right_stats.comparison_count;
+		stats.copy_count += right_stats.copy_count;
+	}
 
 	return stats;
 }

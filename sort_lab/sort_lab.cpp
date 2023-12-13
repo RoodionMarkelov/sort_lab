@@ -40,76 +40,82 @@ vector<int> _sorted_vector(int size) {
 vector<int> _reverse_vector(int size) {
 	std::vector<int> list;
 	for (int i = 0; i < size; ++i) {
-		list.push_back(size - i);
+		list.push_back(size - 1 - i);
 	}
 	return list;
 }
 
-
-
 int main()
 {
-	/*std::vector<int> list1 = _random_vector(1000);
-	Stats stats1 = insertionSort(list1);
-	print_stats(stats1);
+	//std::vector<int> list1 = _random_vector(1000);
+	//Stats stats1 = insertionSort(list1);
+	//print_stats(stats1);
 
-	std::vector<int> list2 = _random_vector(1000);
-	Stats stats2 = quickSort(list2, 0, list2.size() - 1);
-	print_stats(stats2);
+	//std::vector<int> list2 = _random_vector(10000);
+	//Stats stats2 = quickSort(list2, 0, list2.size() - 1);
+	//print_stats(stats2);
 
-	std::vector<int> list3 = _random_vector(1000);
-	Stats stats3 = combSort(list3);
-	print_stats(stats3);
+	//std::vector<int> list3 = _random_vector(10000);
+	//Stats stats3 = combSort(list3);
+	//print_stats(stats3);
 
-	std::vector<int> list4 = _sorted_vector(1000);
-	Stats stats4 = insertionSort(list4);
-	print_stats(stats4);
+	//std::vector<int> list4 = _sorted_vector(10000);
+	//Stats stats4 = insertionSort(list4);
+	//print_stats(stats4);
 
-	std::vector<int> list5 = _sorted_vector(1000);
-	Stats stats5 = quickSort(list5, 0, list5.size() - 1);
-	print_stats(stats5);
+	//std::vector<int> list5 = _sorted_vector(10000);
+	//Stats stats5 = quickSort(list5, 0, list5.size() - 1);
+	//print_stats(stats5);
 
-	std::vector<int> list6 = _sorted_vector(1000);
-	Stats stats6 = combSort(list6);
-	print_stats(stats6);
+	//std::vector<int> list6 = _sorted_vector(10000);
+	//Stats stats6 = combSort(list6);
+	//print_stats(stats6);
 
-	std::vector<int> list7 = _reverse_vector(1000);
-	Stats stats7 = insertionSort(list7);
-	print_stats(stats7);
+	//std::vector<int> list7 = _reverse_vector(10000);
+	//Stats stats7 = insertionSort(list7);
+	//print_stats(stats7);
 
-	std::vector<int> list8 = _reverse_vector(1000);
-	Stats stats8 = quickSort(list8, 0, list8.size() - 1);
-	print_stats(stats8);
+	//std::vector<int> list8 = _reverse_vector(1000);
+	//Stats stats8 = quickSort(list8, 0, list8.size() - 1);
+	//print_stats(stats8);
 
-	std::vector<int> list9 = _reverse_vector(100);
-	print(list9);
-	Stats stats9 = combSort(list9);
-	print(list9);
-	print_stats(stats9);*/
+	//std::vector<int> list9 = _reverse_vector(10000);
+	////print(list9);
+	//Stats stats9 = combSort(list9);
+	////print(list9);
+	//print_stats(stats9);
+	
+	//===========================================================
+	//After example
+	//===========================================================
 
 	Stats stats_insertion_sort_random{ 0, 0 };
 	Stats stats_quick_sort_random{ 0, 0 };
 	Stats stats_comb_sort_random{ 0, 0 };
 
 	int vector_count = 100;
+	int length = 2000;
 
 	for (int i = 0; i < 1; ++i) {
-		vector<int> vector = _random_vector(1000);
+		vector<int> vec = _random_vector(length);
 
-		Stats insert_sort_random = insertionSort(vector);
+		vector<int> vector1 = vec;
+		Stats insert_sort_random = insertionSort(vector1);
 		stats_insertion_sort_random.comparison_count += insert_sort_random.comparison_count;
 		stats_insertion_sort_random.copy_count += insert_sort_random.copy_count;
 
-		Stats quick_sort_random = quickSort(vector, 0, vector.size() - 1);
+		vector<int> vector2 = vec;
+		Stats quick_sort_random = quickSort(vector2, 0, vector2.size() - 1);
 		stats_quick_sort_random.comparison_count += quick_sort_random.comparison_count;
 		stats_quick_sort_random.copy_count += quick_sort_random.copy_count;
 
-		Stats comb_sort_random = combSort(vector);
+		vector<int> vector3 = vec;
+		Stats comb_sort_random = combSort(vector3);
 		stats_comb_sort_random.comparison_count += comb_sort_random.comparison_count;
 		stats_comb_sort_random.copy_count += comb_sort_random.copy_count;
 	}
 
-	vector<int> sorted_vector = _sorted_vector(1000);
+	vector<int> sorted_vector = _sorted_vector(length);
 	Stats stats_insertion_sort_sorted{ 0, 0 };
 	Stats insert_sort_sorted = insertionSort(sorted_vector);
 	stats_insertion_sort_sorted.comparison_count += insert_sort_sorted.comparison_count;
@@ -125,18 +131,21 @@ int main()
 	stats_comb_sort_sorted.comparison_count += comb_sort_sorted.comparison_count;
 	stats_comb_sort_sorted.copy_count += comb_sort_sorted.copy_count;
 
-	vector<int> reverse_vector = _reverse_vector(1000);
+	vector<int> reverse_vector = _reverse_vector(length);
 	Stats stats_insertion_sort_reverse{ 0, 0 };
-	Stats insert_sort_reverse = insertionSort(reverse_vector);
+	vector<int> reverse_vector1 = reverse_vector;
+	Stats insert_sort_reverse = insertionSort(reverse_vector1);
 	stats_insertion_sort_reverse.comparison_count += insert_sort_reverse.comparison_count;
 	stats_insertion_sort_reverse.copy_count += insert_sort_reverse.copy_count;
 
-	Stats quick_sort_reverse = quickSort(reverse_vector, 0, reverse_vector.size() - 1);
+	vector<int> reverse_vector2 = reverse_vector;
 	Stats stats_quick_sort_reverse{ 0, 0 };
+	Stats quick_sort_reverse = quickSort(reverse_vector2, 0, reverse_vector2.size() - 1);
 	stats_quick_sort_reverse.comparison_count += quick_sort_reverse.comparison_count;
 	stats_quick_sort_reverse.copy_count += quick_sort_reverse.copy_count;
 
-	Stats comb_sort_reverse = combSort(reverse_vector);
+	vector<int> reverse_vector3 = reverse_vector;
+	Stats comb_sort_reverse = combSort(reverse_vector3);
 	Stats stats_comb_sort_reverse{ 0, 0 };
 	stats_comb_sort_reverse.comparison_count += comb_sort_reverse.comparison_count;
 	stats_comb_sort_reverse.copy_count += comb_sort_reverse.copy_count;
@@ -157,7 +166,7 @@ int main()
 		comb_sort_random_average.copy_count = (stats_comb_sort_random.copy_count / vector_count)
 	};
 
-	cout << "Vector_lengths = " << 1000 << endl;
+	cout << "Vector_lengths = " << length << endl;
 	cout << endl;
 
 	//==========================================================================
@@ -207,6 +216,8 @@ int main()
 	cout << "Reverse_vector - Comb Sort Stats:" << endl;
 	print_stats(stats_comb_sort_reverse);
 	cout << endl;
+	bool res = (reverse_vector3 == sorted_vector);
+	cout << res << endl;
 
 	return 0;
 }
