@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <vector>
+#include <iostream>
 
 using namespace std;
 struct Stats {
@@ -24,6 +25,12 @@ public:
 		this->value1 = pair.get_value1();
 		this->value2 = pair.get_value2();
 		return *this;
+	}
+
+	friend std::ostream& operator<<(std::ostream& stream, MyPairClass& pair) {
+		MyPairClass temp = pair;
+		stream << "(" << temp.get_value1() << "; " << temp.get_value2() << ")" << endl;
+		return stream;
 	}
 
 	bool operator>(const MyPairClass& pair) {
@@ -53,10 +60,11 @@ public:
 	}
 };
 
-Stats insertionSort(std::vector<int>& list) {
+template<typename T>
+Stats insertionSort(std::vector<T>& list) {
 	Stats stats{0, 0};
 	for (int i = 1; i < list.size(); ++i) {
-		int key = list[i];
+		T key = list[i];
 		stats.copy_count++;
 		int j = i - 1;
 		stats.comparison_count++;
@@ -72,12 +80,13 @@ Stats insertionSort(std::vector<int>& list) {
 	return stats;
 }
 
-Stats quickSort(vector<int>& vec, int start, int end) {
+template<typename T>
+Stats quickSort(vector<T>& vec, int start, int end) {
 	Stats stats;
 
 	int i = start;
 	int j = end;
-	int middle = vec[(start + end) / 2];
+	T middle = vec[(start + end) / 2];
 
 	do {
 		while (vec[i] < middle) {
@@ -111,7 +120,8 @@ Stats quickSort(vector<int>& vec, int start, int end) {
 	return stats;
 }
 
-Stats combSort(std::vector<int>& list ) {
+template<typename T>
+Stats combSort(std::vector<T>& list ) {
 	Stats stats{0,0};
 	float factor = 1.277f;
 	int step = list.size() - 1;

@@ -2,10 +2,12 @@
 #include <vector>
 #include <random>
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
-void print(std::vector<int> list) {
+template<typename T>
+void print(std::vector<T> list) {
 	cout << "Vector:" << endl;
 	for (int i = 0; i < list.size(); ++i) {
 		cout << list[i] << " ";
@@ -22,7 +24,7 @@ void print_stats(Stats& stats) {
 
 vector<int> _random_vector(int size) {
 	std::vector<int> list;
-	srand(0);
+	srand(time(0));
 	for (int i = 0; i < size; ++i) {
 		list.push_back(rand());
 	}
@@ -43,6 +45,24 @@ vector<int> _reverse_vector(int size) {
 		list.push_back(size - 1 - i);
 	}
 	return list;
+}
+
+template<typename T>
+vector<T> create_vector(int size, T min_value, T max_value) {
+	std::vector<T> vector(size);
+	for (int i(0); i < size; ++i) {
+		vector[i] = (T)((double)min_value + (double)(rand()) / RAND_MAX * (max_value - min_value));
+	}
+	return vector;
+}
+
+vector<MyPairClass> create_vector(int size) {
+	std::vector<MyPairClass> vector(size);
+	srand(time(0));
+	for (int i(0); i < size; ++i) { 
+		vector[i] = MyPairClass(rand(), rand());
+	}
+	return vector;
 }
 
 int main()
@@ -84,19 +104,19 @@ int main()
 	//Stats stats9 = combSort(list9);
 	////print(list9);
 	//print_stats(stats9);
-	
+
 	//===========================================================
 	//After example
 	//===========================================================
 
-	Stats stats_insertion_sort_random{ 0, 0 };
+	/*Stats stats_insertion_sort_random{0, 0};
 	Stats stats_quick_sort_random{ 0, 0 };
 	Stats stats_comb_sort_random{ 0, 0 };
 
 	int vector_count = 100;
-	int length = 2000;
+	int length = 100000;
 
-	for (int i = 0; i < 1; ++i) {
+	for (int i = 0; i < vector_count; ++i) {
 		vector<int> vec = _random_vector(length);
 
 		vector<int> vector1 = vec;
@@ -113,6 +133,7 @@ int main()
 		Stats comb_sort_random = combSort(vector3);
 		stats_comb_sort_random.comparison_count += comb_sort_random.comparison_count;
 		stats_comb_sort_random.copy_count += comb_sort_random.copy_count;
+		cout << i << endl;
 	}
 
 	vector<int> sorted_vector = _sorted_vector(length);
@@ -169,10 +190,10 @@ int main()
 	cout << "Vector_lengths = " << length << endl;
 	cout << endl;
 
-	//==========================================================================
-	//Random
-	//==========================================================================
-
+	==========================================================================
+	Random
+	==========================================================================
+	cout << "Random===============================================================" << endl;
 	cout << "Random_vectors - Insertion Sort Average Stats:" << endl;
 	print_stats(insert_sort_random_average);
 	cout << endl;
@@ -185,10 +206,11 @@ int main()
 	print_stats(comb_sort_random_average);
 	cout << endl;
 
-	//==========================================================================
-	//Sorted
-	//==========================================================================
 
+	==========================================================================
+	Sorted
+	==========================================================================
+	cout << "Sort===============================================================" << endl;
 	cout << "Sorted_vector - Insertion Sort A Stats:" << endl;
 	print_stats(stats_insertion_sort_sorted);
 	cout << endl;
@@ -201,10 +223,10 @@ int main()
 	print_stats(stats_comb_sort_sorted);
 	cout << endl;
 
-	//==========================================================================
-	//Reverse
-	//==========================================================================
-
+	==========================================================================
+	Reverse
+	==========================================================================
+	cout << "Reverse===============================================================" << endl;
 	cout << "Reverse_vector - Insertion Sort Stats:" << endl;
 	print_stats(stats_insertion_sort_reverse);
 	cout << endl;
@@ -217,7 +239,69 @@ int main()
 	print_stats(stats_comb_sort_reverse);
 	cout << endl;
 	bool res = (reverse_vector3 == sorted_vector);
-	cout << res << endl;
+	cout << res << endl;*/
+
+	//================================================================
+	//After stats
+	//================================================================
+
+	cout << "FLOAT===============================================================" << endl;
+	vector<float> vec1 = create_vector<float>(20, -40.5f, 40.5f);
+	print(vec1);
+
+	vector<float> vector1 = vec1;
+	Stats stats1 = insertionSort(vector1);
+	print(vector1);
+	vector<float> vector2 = vec1;
+	Stats stats2 = insertionSort(vector2);
+	print(vector2);
+	vector<float> vector3 = vec1;
+	Stats stats3 = insertionSort(vector3);
+	print(vector3);
+
+	cout << "Double===============================================================" << endl;
+	vector<double> vec2 = create_vector<double>(20, -40.5f, 40.5f);
+	print(vec2);
+
+	vector<double> vector11 = vec2;
+	Stats stats11 = insertionSort(vector11);
+	print(vector11);
+	vector<double> vector22 = vec2;
+	Stats stats22 = insertionSort(vector22);
+	print(vector22);
+	vector<double> vector33 = vec2;
+	Stats stats33 = insertionSort(vector33);
+	print(vector33);
+
+	cout << "MyClass===============================================================" << endl;
+	vector<MyPairClass> vec3 = create_vector(20);
+	print(vec3);
+
+	vector<MyPairClass> vector111 = vec3;
+	Stats stats111 = insertionSort(vector111);
+	print(vector111);
+	vector<MyPairClass> vector222 = vec3;
+	Stats stats222 = insertionSort(vector222);
+	print(vector222);
+	vector<MyPairClass> vector333 = vec3;
+	Stats stats333 = insertionSort(vector333);
+	print(vector333);
+
+	cout << "String===============================================================" << endl;
+	vector<string> vec_string = {"adc", "abc", "a", "s", "v", "t", "a", "i", "s", "d", "aaa"};
+	print(vec_string);
+
+	vector<string> vec_string1 = vec_string;
+	Stats stats_s1= insertionSort(vec_string1);
+	print(vec_string1);
+
+	vector<string> vec_string2 = vec_string;
+	Stats stats_s2 = insertionSort(vec_string2);
+	print(vec_string2);
+
+	vector<string> vec_string3 = vec_string;
+	Stats stats_s3 = insertionSort(vec_string3);
+	print(vec_string3);
 
 	return 0;
 }
